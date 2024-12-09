@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>IA-WALL</title>
+    <link href="/stylesheet" rel="stylesheet">
+    <script src="/script"></script>
+</head>
+<body>
+<div class="container">
+    <!-- Left Sidebar -->
+    <div class="sidebar" id="sidebar"></div>
+
+    <!-- Middle Section: Puzzle Board -->
+    <div class="main">
+        <div class="puzzle-board">
+            <div class="puzzle-slot" data-slot="red"></div>
+            <div class="puzzle-slot" data-slot="green"></div>
+            <div class="puzzle-slot" data-slot="blue"></div>
+        </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="right-panel">
+        <button class="generate-btn" id="generateBtn">Generate Sentence</button>
+        <div id="apiResponse"></div>
+    </div>
+</div>
+
+<script>
+    const puzzlePieces = [
+        {color: 'red', text: 'AI'},
+        {color: 'green', text: 'Create'},
+        {color: 'green', text: 'Make'},
+        {color: 'green', text: 'Build'},
+        {color: 'green', text: 'Do'},
+        {color: 'green', text: 'Get'},
+        {color: 'green', text: 'Take'},
+        {color: 'green', text: 'Give'},
+        {color: 'green', text: 'Say'},
+        {color: 'green', text: 'Run'},
+        {color: 'green', text: 'Think'},
+        {color: 'green', text: 'Write'},
+        {color: 'green', text: 'Read'},
+        {color: 'green', text: 'Speak'},
+        {color: 'green', text: 'Learn'},
+        {color: 'green', text: 'Feel'},
+        {color: 'green', text: 'Aware'},
+        {color: 'green', text: 'Understand'},
+        {color: 'green', text: 'Know'},
+        {color: 'green', text: 'Believe'},
+        {color: 'green', text: 'Perceive'},
+        {color: 'green', text: 'Remember'},
+        {color: 'green', text: 'Forget'},
+        {color: 'green', text: 'Imagine'},
+        {color: 'green', text: 'Dream'},
+        {color: 'green', text: 'Judge'},
+        {color: 'green', text: 'Decide'},
+        {color: 'green', text: 'Choose'},
+        {color: 'green', text: 'Plan'},
+        {color: 'green', text: 'Organize'},
+        {color: 'green', text: 'Coordinate'},
+        {color: 'green', text: 'Control'},
+        {color: 'green', text: 'Keep'},
+        {color: 'green', text: 'Abandon'},
+        {color: 'green', text: 'Accept'},
+        {color: 'green', text: 'Share'},
+        {color: 'green', text: 'Collaborate'},
+        {color: 'green', text: 'Inspire'},
+        {color: 'green', text: 'Motivate'},
+        {color: 'green', text: 'Encourage'},
+        {color: 'green', text: 'Support'},
+        {color: 'green', text: 'Help'},
+        {color: 'green', text: 'Protect'},
+        {color: 'green', text: 'Defend'},
+        {color: 'green', text: 'Guide'},
+        {color: 'green', text: 'Lead'},
+        {color: 'green', text: 'Follow'},
+        {color: 'green', text: 'Observe'},
+        {color: 'green', text: 'Watch'},
+        {color: 'green', text: 'Listen'},
+        {color: 'green', text: 'Sing'},
+        {color: 'green', text: 'Dance'},
+        {color: 'green', text: 'Act'},
+        {color: 'green', text: 'Play'},
+        {color: 'green', text: 'Paint'},
+        {color: 'green', text: 'Draw'},
+        {color: 'green', text: 'Sketch'},
+        {color: 'green', text: 'Craft'},
+        {color: 'green', text: 'Invent'},
+        {color: 'green', text: 'Discover'},
+        {color: 'green', text: 'Explore'},
+        {color: 'green', text: 'Analyze'},
+        {color: 'green', text: 'Solve'},
+        {color: 'green', text: 'Fix'},
+        {color: 'green', text: 'Repair'},
+        {color: 'green', text: 'Test'},
+        {color: 'green', text: 'Refine'},
+        {color: 'green', text: 'Optimize'},
+        {color: 'green', text: 'Execute'},
+        {color: 'green', text: 'Achieve'},
+        {color: 'green', text: 'Celebrate'},
+        {color: 'green', text: 'Win'},
+        {color: 'green', text: 'Lose'},
+        {color: 'green', text: 'Reflect'},
+        {color: 'green', text: 'Evolve'},
+        {color: 'green', text: 'Adapt'},
+        {color: 'green', text: 'Change'},
+        {color: 'green', text: 'Grow'},
+        {color: 'green', text: 'Develop'},
+        {color: 'green', text: 'Transform'},
+        {color: 'blue', text: 'Ideas'},
+        {color: 'blue', text: 'Projects'},
+        {color: 'blue', text: 'Products'},
+        {color: 'blue', text: 'Services'},
+        {color: 'blue', text: 'Solutions'},
+        {color: 'blue', text: 'Systems'},
+        {color: 'blue', text: 'Applications'},
+        {color: 'blue', text: 'Platforms'},
+        {color: 'blue', text: 'Technologies'},
+        {color: 'blue', text: 'Tools'},
+        {color: 'blue', text: 'Methods'},
+        {color: 'blue', text: 'Achieve'},
+        {color: 'blue', text: 'Adapt'},
+        {color: 'blue', text: 'Analyze'},
+        {color: 'blue', text: 'Build'},
+        {color: 'blue', text: 'Change'},
+        {color: 'blue', text: 'Collaborate'},
+        {color: 'blue', text: 'Control'},
+        {color: 'blue', text: 'Craft'},
+        {color: 'blue', text: 'Dance'},
+        {color: 'blue', text: 'Discover'},
+        {color: 'blue', text: 'Draw'},
+        {color: 'blue', text: 'Evolve'},
+        {color: 'blue', text: 'Execute'},
+        {color: 'blue', text: 'Explore'},
+        {color: 'blue', text: 'Fix'},
+        {color: 'blue', text: 'Grow'},
+        {color: 'blue', text: 'Invent'},
+        {color: 'blue', text: 'Listen'},
+        {color: 'blue', text: 'Optimize'},
+        {color: 'blue', text: 'Paint'},
+        {color: 'blue', text: 'Platforms'},
+        {color: 'blue', text: 'Play'},
+        {color: 'blue', text: 'Products'},
+        {color: 'blue', text: 'Protect'},
+        {color: 'blue', text: 'Refine'},
+        {color: 'blue', text: 'Repair'},
+        {color: 'blue', text: 'Services'},
+        {color: 'blue', text: 'Share'},
+        {color: 'blue', text: 'Sketch'},
+        {color: 'blue', text: 'Solutions'},
+        {color: 'blue', text: 'Solve'},
+        {color: 'blue', text: 'Support'},
+        {color: 'blue', text: 'Systems'},
+        {color: 'blue', text: 'Technologies'},
+        {color: 'blue', text: 'Test'},
+        {color: 'blue', text: 'Tools'},
+        {color: 'blue', text: 'Transform'},
+        {color: 'blue', text: 'Watch'},
+        {color: 'blue', text: 'Win'},
+        {color: 'blue', text: 'Write'},
+        {color: 'blue', text: 'Believe'},
+        {color: 'blue', text: 'Celebrate'},
+        {color: 'blue', text: 'Decide'},
+        {color: 'blue', text: 'Forget'},
+        {color: 'blue', text: 'Guide'},
+        {color: 'blue', text: 'Help'},
+        {color: 'blue', text: 'Imagine'},
+        {color: 'blue', text: 'Inspire'},
+        {color: 'blue', text: 'Judge'},
+        {color: 'blue', text: 'Keep'},
+        {color: 'blue', text: 'Know'},
+        {color: 'blue', text: 'Lead'},
+        {color: 'blue', text: 'Lose'},
+        {color: 'blue', text: 'Motivate'},
+        {color: 'blue', text: 'Observe'},
+        {color: 'blue', text: 'Organize'},
+        {color: 'blue', text: 'Perceive'}
+    ];
+
+
+    const sidebar = document.getElementById('sidebar');
+
+    puzzlePieces.forEach((piece, index) => {
+        const div = document.createElement('div');
+        div.className = `puzzle-piece ${piece.color}`;
+        div.id = `piece${index + 1}`;
+        div.draggable = true;
+        div.dataset.color = piece.color;
+        div.textContent = piece.text;
+        sidebar.appendChild(div);
+    });
+</script>
+</body>
+</html>
